@@ -29,7 +29,6 @@ const userProfileController = async (req, res) => {
       marital_status: maritalStatus,
       id_image: idImage,
     };
-
     await userProfileServices.createUserProfile(data);
   } else {
     const dataUpdate = {};

@@ -1,6 +1,10 @@
 import User from '../database/models/user.model';
 import { hashPassword } from '../utils';
 
+async function getAllUsers() {
+  const userInfo = await User.findAll();
+  return userInfo;
+}
 async function getUserByEmail(email) {
   const user = await User.findOne({ where: { email } });
   return user;
@@ -55,6 +59,7 @@ async function enableOtp(id) {
 }
 
 export default {
+  getAllUsers,
   getUserByEmail,
   createUser,
   deleteUser,
