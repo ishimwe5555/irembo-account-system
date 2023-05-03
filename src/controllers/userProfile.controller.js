@@ -1,8 +1,8 @@
 import { userProfileServices, userServices } from '../services';
+import { Cloudinary } from '../helpers';
 
 const userProfileController = async (req, res) => {
   const userId = req.user.id;
-  // const user = await userServices.getUserById(userId);
   const userInfo = await userProfileServices.getProfilesByUser(userId);
   const {
     firstname,
@@ -15,6 +15,7 @@ const userProfileController = async (req, res) => {
     maritalStatus,
     idImage,
   } = req.body;
+
   if (!userInfo) {
     const data = {
       userId,
@@ -33,10 +34,16 @@ const userProfileController = async (req, res) => {
   } else {
     const dataUpdate = {};
     if (req.files && req.files.profilePicture) {
-      dataUpdate.profile_picture = req.files.profilePicture[0].path;
+      const profileImage = await Cloudinary.uploader.upload(
+        req.files.profilePicture[0].path
+      );
+      dataUpdate.profile_picture = profileImage.url;
     }
     if (req.files && req.files.idImage) {
-      dataUpdate.id_image = req.files.idImage[0].path;
+      const idPicture = await Cloudinary.uploader.upload(
+        req.files.idImage[0].path
+      );
+      dataUpdate.id_image = idPicture.url;
     }
     if (profilePicture !== undefined) {
       dataUpdate.profile_picture = profilePicture;

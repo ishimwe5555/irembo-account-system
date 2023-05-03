@@ -1,8 +1,8 @@
-# Team-Sostene-E-commerce-bn
+# Irembo- User Account Management Assignment
 
 [![HoundCI](https://img.shields.io/badge/style--blue.svg?label=HoundCI&logo=eslint&style=flat)](https://houndci.com) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop) [![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/Team-Sostene-E-commerce-bn/badge.svg?branch=develop)](https://coveralls.io/github/atlp-rwanda/Team-Sostene-E-commerce-bn?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/484e0e60c2f2168ac6f0/maintainability)](https://codeclimate.com/github/atlp-rwanda/Team-Sostene-E-commerce-bn/maintainability)  [![Test Coverage](https://api.codeclimate.com/v1/badges/484e0e60c2f2168ac6f0/test_coverage)](https://codeclimate.com/github/atlp-rwanda/Team-Sostene-E-commerce-bn/test_coverage)
 
-# This is the back-end of Team Sostene E-commerce website
+# This is the back-end of User Account Management Assignment
 
 ## Setup
 
@@ -26,6 +26,8 @@
 - bcrypt
 - redis
 - joi
+- cloudinary
+- multer
 
 ## DevDependencies
 - mocha
@@ -51,7 +53,7 @@
 - In summary, HoundCI is a helpful tool for automating code review and ensuring the quality of code changes in a software development project.
 
 ## NodeMailer
-- Nodemailer is a tool that simplifies the process of sending transactional emails in eCommerce websites. It supports various email services and offers useful features such as email templates, file attachments, and HTML emails.
+- Nodemailer is a tool that simplifies the process of sending transactional emails in websites. It supports various email services and offers useful features such as email templates, file attachments, and HTML emails.
 
 # PostgreSQL Installation
 
@@ -93,7 +95,7 @@ HOST_MAILER=''
 To create the Users table in your PostgreSQL database, run the following command in your terminal:
 ```
 
-npx sequelize-cli db:migrate
+npm run migrate
 
 ```
 This will execute the migration files in the db/migrations folder and create the Users table in your PostgreSQL database.

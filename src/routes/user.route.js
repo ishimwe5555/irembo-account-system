@@ -21,7 +21,7 @@ import {
   validate,
   checkPermission,
 } from '../middleware';
-import { asyncWrapper } from '../helpers';
+import { asyncWrapper, Upload } from '../helpers';
 
 const router = Router();
 router.post(
@@ -57,6 +57,7 @@ router.put(
   '/profile',
   isAuthenticated,
   validate(userProfileSchema),
+  Upload,
   asyncWrapper(userProfileController)
 );
 router.get('/profile', isAuthenticated, asyncWrapper(fetchUserController));

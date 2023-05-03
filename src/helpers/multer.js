@@ -9,7 +9,7 @@ const fileFilter = (req, file, cb) => {
     cb(new Error('File not supported'), false);
     return;
   }
-  cb(null, 'uploads/');
+  cb(null, true);
 };
 
 const Upload = (req, res, next) => {
