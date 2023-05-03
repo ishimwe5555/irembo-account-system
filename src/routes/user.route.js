@@ -3,6 +3,7 @@ import '../middleware/passport';
 import {
   userControllers,
   tfaEnableDisable,
+  createProfile,
   userProfileController,
   fetchUserController,
 } from '../controllers';
@@ -12,7 +13,7 @@ import {
   SignUpSchema,
   PasswordSchema,
   newPasswordSchema,
-  userProfileSchema
+  userProfileSchema,
 } from '../utils';
 import {
   isAuthenticated,
@@ -45,13 +46,19 @@ router.patch(
   asyncWrapper(tfaEnableDisable)
 );
 
+router.post(
+  '/profile',
+  isAuthenticated,
+  validate(userProfileSchema),
+  asyncWrapper(createProfile)
+);
+
 router.put(
   '/profile',
   isAuthenticated,
   validate(userProfileSchema),
   asyncWrapper(userProfileController)
 );
-
 router.get('/profile', isAuthenticated, asyncWrapper(fetchUserController));
 
 // router.patch(

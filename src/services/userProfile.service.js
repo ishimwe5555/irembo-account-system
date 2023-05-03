@@ -1,12 +1,13 @@
 import UserProfile from '../database/models/userProfile.model';
+import { Cloudinary } from '../helpers';
 
-async function getUserProfilesById(userId) {
+async function getProfilesByUser(userId) {
   const userInfo = await UserProfile.findOne({
     where: { userId },
   });
   return userInfo;
 }
-async function createUserProfiles(data) {
+async function createUserProfile(data) {
   const userInfo = await UserProfile.create(data);
   return userInfo;
 }
@@ -16,6 +17,12 @@ async function updateUserProfiles(userId, data) {
   });
   return userInfo;
 }
+
+async function uploadImage(path) {
+  const image = await Cloudinary.uploader.upload(path);
+  return { image };
+}
+
 async function deleteUserProfiles(userId) {
   const newdata = {
     names: '',
@@ -36,8 +43,9 @@ async function deleteUserProfiles(userId) {
 }
 
 export default {
-  getUserProfilesById,
-  createUserProfiles,
+  getProfilesByUser,
+  createUserProfile,
   deleteUserProfiles,
   updateUserProfiles,
+  uploadImage,
 };

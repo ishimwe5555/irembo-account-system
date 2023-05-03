@@ -19,14 +19,6 @@ const UserProfile = sequelize.define('user_profile_data', {
       key: 'id',
     },
   },
-  firstname: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
-  lastname: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
   profile_picture: {
     type: Sequelize.STRING,
     allowNull: true,
@@ -37,6 +29,11 @@ const UserProfile = sequelize.define('user_profile_data', {
   },
   birthdate: {
     type: Sequelize.DATEONLY,
+    allowNull: true,
+  },
+  nationality: {
+    type: Sequelize.STRING,
+    unique: true,
     allowNull: true,
   },
   id_number: {

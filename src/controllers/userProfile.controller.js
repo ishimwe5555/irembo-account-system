@@ -2,6 +2,8 @@ import { userProfileServices, userServices } from '../services';
 
 const userProfileController = async (req, res) => {
   const userId = req.user.id;
+  // const user = await userServices.getUserById(userId);
+  const userInfo = await userProfileServices.getProfilesByUser(userId);
   const {
     firstname,
     lastname,
@@ -13,29 +15,59 @@ const userProfileController = async (req, res) => {
     maritalStatus,
     idImage,
   } = req.body;
+  if (!userInfo) {
+    const data = {
+      userId,
+      firstname,
+      lastname,
+      profile_picture: profilePicture,
+      gender,
+      birthdate,
+      id_number: idNumber,
+      nationality,
+      marital_status: maritalStatus,
+      id_image: idImage,
+    };
 
-  const user = await userServices.getUserById(userId);
+    await userProfileServices.createUserProfile(data);
+  } else {
+    const dataUpdate = {};
+    if (req.files && req.files.profilePicture) {
+      dataUpdate.profile_picture = req.files.profilePicture[0].path;
+    }
+    if (req.files && req.files.idImage) {
+      dataUpdate.id_image = req.files.idImage[0].path;
+    }
+    if (profilePicture !== undefined) {
+      dataUpdate.profile_picture = profilePicture;
+    }
+    if (gender !== undefined) {
+      dataUpdate.gender = gender;
+    }
+    if (birthdate !== undefined) {
+      dataUpdate.birthdate = birthdate;
+    }
+    if (idNumber !== undefined) {
+      dataUpdate.id_number = idNumber;
+    }
+    if (nationality !== undefined) {
+      dataUpdate.nationality = nationality;
+    }
+    if (maritalStatus !== undefined) {
+      dataUpdate.marital_status = maritalStatus;
+    }
+    if (idImage !== undefined) {
+      dataUpdate.id_image = idImage;
+    }
 
-  let userInfo = await userProfileServices.getUserProfilesById(user.id);
+    await userProfileServices.updateUserProfiles(userId, dataUpdate);
+  }
+  const userProfile = await userProfileServices.getProfilesByUser(userId);
 
-  const dataUpdate = {
-    firstname: firstname || userInfo.firstname,
-    lastname: lastname || userInfo.lastname,
-    gender: gender || userInfo.gender,
-    birthdate: birthdate || userInfo.birthdate,
-    id_number: idNumber || userInfo.id_number,
-    nationality: nationality || userInfo.nationality,
-    marital_status: maritalStatus || userInfo.marital_status,
-    id_image: idImage || userInfo.id_image,
-    profile_picture: profilePicture || userInfo.profile_picture,
-  };
-  userInfo = await userProfileServices.updateUserProfiles(userId, dataUpdate);
-  const info = await userProfileServices.getUserProfilesById(userId);
-
-  return res.status(200).json({
-    code: 200,
+  return res.status(201).json({
+    code: 201,
     message: 'User profile Successfully updated',
-    info,
+    userProfile,
   });
 };
 

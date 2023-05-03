@@ -21,7 +21,6 @@ import verifyOldPassword from '../helpers/verifyPassword';
 const signUp = async (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user) => {
     req.login(user, async () => {
-      console.log(user);
       const body = {
         id: req.user.id,
         lastname: req.user.lastname,

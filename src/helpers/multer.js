@@ -9,14 +9,17 @@ const fileFilter = (req, file, cb) => {
     cb(new Error('File not supported'), false);
     return;
   }
-  cb(null, true);
+  cb(null, 'uploads/');
 };
 
 const Upload = (req, res, next) => {
   const upload = multer({
     storage: uploadFile,
     fileFilter,
-  }).array('image');
+  }).fields([
+    { name: 'profilePicture', maxCount: 1 },
+    { name: 'idImage', maxCount: 1 },
+  ]);
 
   upload(req, res, (err) => {
     if (err) {
