@@ -1,9 +1,14 @@
 import UserProfile from '../database/models/userProfile.model';
+import User from '../database/models/user.model';
 import { Cloudinary } from '../helpers';
 
 async function getProfilesByUser(userId) {
   const userInfo = await UserProfile.findOne({
     where: { userId },
+    include: {
+      model: User,
+      as: 'user',
+    },
   });
   return userInfo;
 }

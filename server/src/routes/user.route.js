@@ -3,7 +3,6 @@ import '../middleware/passport';
 import {
   userControllers,
   tfaEnableDisable,
-  createProfile,
   userProfileController,
   fetchUserController,
 } from '../controllers';

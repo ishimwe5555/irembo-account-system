@@ -44,9 +44,12 @@ const userProfileController = async (req, res) => {
       );
       dataUpdate.id_image = idPicture.url;
     }
-    if (profilePicture !== undefined) {
-      dataUpdate.profile_picture = profilePicture;
-    }
+    // if (profilePicture !== undefined) {
+    //   dataUpdate.profile_picture = profilePicture;
+    // }
+    // if (idImage !== undefined) {
+    //   dataUpdate.profile_picture = idImage;
+    // }
     if (gender !== undefined) {
       dataUpdate.gender = gender;
     }
@@ -61,9 +64,6 @@ const userProfileController = async (req, res) => {
     }
     if (maritalStatus !== undefined) {
       dataUpdate.marital_status = maritalStatus;
-    }
-    if (idImage !== undefined) {
-      dataUpdate.id_image = idImage;
     }
 
     await userProfileServices.updateUserProfiles(userId, dataUpdate);
@@ -80,12 +80,17 @@ const userProfileController = async (req, res) => {
 const fetchUserController = async (req, res) => {
   const userId = req.user.id;
   const user = await userServices.getUserById(userId);
-  const userInfo = await userProfileServices.getUserProfilesById(user.id);
+  const profile = await userProfileServices.getProfilesByUser(user.id);
+  if (!profile) {
+    return res.status(404).json({
+      code: 404,
+      message: 'User has no profile',
+    });
+  }
   return res.status(200).json({
     code: 200,
     message: 'Successfully fetched user',
-    user,
-    profile: userInfo,
+    profile,
   });
 };
 
