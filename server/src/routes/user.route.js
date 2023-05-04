@@ -35,7 +35,6 @@ router.post(
   userEmailExists,
   asyncWrapper(userControllers.signUp)
 );
-
 router.post('/login', validate(LoginSchema), userControllers.login);
 router.post('/logout', isAuthenticated, userControllers.logOut);
 router.post('/verify/:email', userControllers.verifyOTP);
