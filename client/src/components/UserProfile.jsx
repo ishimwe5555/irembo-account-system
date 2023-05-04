@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   TextField,
@@ -13,26 +13,38 @@ import {
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import VerifiedBadge from "./VerifiedBadge";
 import profileStyles from '../styles/profileStyles';
-import defaultImage from '../Assets/4.jpg'
+// import defaultImage from '../Assets/4.jpg'
 import fetch from '../api/fetch';
 
-const PROFILE_URL = 'users/profile';
+const PROFILE_URL = '/users/profile';
 
-const UserProfile = async () => {
+const UserProfile =  () => {
   const classes = profileStyles();
   const [editMode, setEditMode] = useState(false);
+  const [data, setData] = useState({}); // initialize data state as an empty object
   const user = JSON.parse(localStorage.getItem("tempLog"))
-const token = JSON.parse(localStorage.getItem('cooltoken'))
-const response = await fetch.get(PROFILE_URL,{
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-})
-if(response.ok){
-  console.log(response)
-}
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("cooltoken"); // set your authorization token
+        console.log(token)
+        const response = await fetch.get(PROFILE_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response)
+        setData(response); // update data state with the fetched response
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData(); // call fetchData() function to fetch data before the component mounts
+  }, [setData]); // pass an empty dependency array to run the effect only once when the component mounts
   const userData = {
-      firstName: user.firstname,
+      firstName: data.firstname,
       lastName: user.lastname,
       gender: "Male",
       age: "30",
