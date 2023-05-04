@@ -13,28 +13,11 @@ async function getUserById(id) {
   const user = await User.findByPk(id);
   return user;
 }
-// async function getUserByUsername(username) {
-//   const user = await User.findOne({ where: { username } });
-//   return user;
-// }
+
 async function createUser(details) {
   const user = await User.create(details);
   return user;
 }
-// async function disableAccount(id) {
-//   const user = await User.update(
-//     {
-//       status: 'INACTIVE',
-//     },
-//     {
-//       where: {
-//         id,
-//       },
-//     }
-//   );
-
-//   return user;
-// }
 
 async function UpdatePassword(email, pass) {
   const password = await hashPassword(pass);

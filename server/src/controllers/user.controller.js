@@ -23,6 +23,7 @@ const signUp = async (req, res, next) => {
     req.login(user, async () => {
       const body = {
         id: req.user.id,
+        firstname: req.user.firstname,
         lastname: req.user.lastname,
         email: req.user.email,
         role: user.role,
@@ -31,7 +32,7 @@ const signUp = async (req, res, next) => {
       const token = generateToken(body);
       redisClient.setEx(req.user.id, 86400, token);
 
-      await notificationUtils.signup(req.user);
+      // await notificationUtils.signup(req.user);
       notificationServices.sendNotification(
         req.user.id,
         'Account is created successfully',
@@ -57,10 +58,12 @@ const login = async (req, res, next) => {
           return res.status(406).json({ code: 406, message: info.message });
         }
         const data = {
-          id: user.id,
-          lastname: user.lastname,
-          email: user.email,
+          id: req.user.id,
+          firstname: req.user.firstname,
+          lastname: req.user.lastname,
+          email: req.user.email,
           role: user.role,
+          is_verified: user.is_verified,
         };
         if (user.role === 'ADMIN' && user.tfa_enabled === true) {
           return twoFactorAuth(res, user);
