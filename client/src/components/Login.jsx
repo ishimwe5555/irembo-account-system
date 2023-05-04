@@ -30,15 +30,18 @@ function Login() {
   if (localStorage.getItem("cooltoken") && localStorage.getItem("tempLog")) {
     return <Navigate to="/profile"/>
   }
-  function popContact(text, color) {
-      setPop(text)
-      document.getElementById('pop').style.background = color
-      document.getElementById('pop').style.padding = '10px'
 
+  function popContact(text, color) {
+    setPop(text);
+    const popElement = document.getElementById('pop');
+    if (popElement) {
+      popElement.style.background = color;
+      popElement.style.padding = '10px';
       setTimeout(() => {
-          setPop('')
-          document.getElementById('pop').style.padding = '0px'
+        setPop('');
+        popElement.style.padding = '0px';
       }, 5000);
+    }
   }
   function disableBtn(text, bt) {
       setBtn(text)
